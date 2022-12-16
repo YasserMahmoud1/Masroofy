@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
-Color primaryColor = Color.fromARGB(255, 79, 134, 225);
-Color secondaryColor = Color.fromARGB(51, 79, 135, 225);
+Color primaryColor = HexColor("4681E2");
+Color secondaryColor = HexColor("4681E2").withOpacity(.20);

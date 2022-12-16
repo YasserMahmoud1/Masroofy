@@ -1,3 +1,5 @@
 abstract class AppStates {}
 
-class NightMode extends AppStates{}
+class InitialState extends AppStates{}
+class DarkModeChange extends AppStates{}
+class ChangeNavBarPage extends AppStates{}

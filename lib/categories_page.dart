@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:masroofy/model.dart';
 
 import 'consts.dart';
+import 'customize_category_page.dart';
 
 class CategoriesPage extends StatelessWidget {
   const CategoriesPage({Key? key}) : super(key: key);
@@ -34,7 +36,10 @@ class CategoriesPage extends StatelessWidget {
                 child: Row(
                   children: const [
                     CircleAvatar(
-                      child: Icon(Icons.lunch_dining_outlined,color: Colors.black,),
+                      child: Icon(
+                        Icons.lunch_dining_outlined,
+                        color: Colors.black,
+                      ),
                       radius: 20,
                       backgroundColor: Color.fromARGB(255, 245, 241, 175),
                     ),
@@ -57,7 +62,14 @@ class CategoriesPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: (() {}),
+        onPressed: (() {
+          Category category = Category(
+              title: "Food",
+              color: "4681E2",
+              iconData: ((Icons.lunch_dining_outlined).codePoint));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => CustomizeCategoryPage(category: category)));
+        }),
         backgroundColor: primaryColor,
       ),
     );

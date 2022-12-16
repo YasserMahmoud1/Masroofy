@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class SelectableAvatar extends StatelessWidget {
-  const SelectableAvatar(
+  SelectableAvatar(
       {Key? key,
-      required this.color,
+      this.color,
+      this.iconData,
       required this.onTab,
       required this.isSelected})
       : super(key: key);
-  final Color color;
+  String? color;
+  int? iconData;
   final bool isSelected;
   final VoidCallback onTab;
   @override
@@ -18,8 +21,12 @@ class SelectableAvatar extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           CircleAvatar(
-            backgroundColor: color,
+            backgroundColor: HexColor(color ?? "FFFFFF"),
             radius: 20,
+            child: iconData != null ?Icon(
+              IconData(iconData!, fontFamily: "MaterialIcons"),
+              color: Colors.black,
+            ):null,
           ),
           Container(
             height: 40,
@@ -29,7 +36,8 @@ class SelectableAvatar extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
           ),
-          isSelected? const Icon(
+          isSelected
+              ? const Icon(
                   Icons.check,
                   color: Colors.white,
                 )
