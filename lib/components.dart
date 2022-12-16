@@ -25,12 +25,11 @@ class SelectableAvatar extends StatelessWidget {
             height: 40,
             width: 40,
             decoration: BoxDecoration(
-                color:
-                    isSelected ?? false ? Colors.black26 : Colors.transparent,
-                borderRadius: BorderRadius.circular(20)),
+              color: isSelected ? Colors.black26 : Colors.transparent,
+              borderRadius: BorderRadius.circular(20),
+            ),
           ),
-          isSelected ?? false
-              ? const Icon(
+          isSelected? const Icon(
                   Icons.check,
                   color: Colors.white,
                 )

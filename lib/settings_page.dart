@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:masroofy/categories_page.dart';
 import 'package:masroofy/consts.dart';
 
@@ -21,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
           Container(
             width: double.infinity,
             height: MediaQuery.of(context).size.height / 3,
-            color: primaryColor,
+            color: HexColor("#5C85DA"),
             child: const Center(
               child: Text(
                 "Settings",
