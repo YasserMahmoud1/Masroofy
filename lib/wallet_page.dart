@@ -14,6 +14,7 @@ class WalletPage extends StatelessWidget {
           children: [
             Row(children: [
               Container(
+                height: 30,
                 decoration: BoxDecoration(
                     color: secondaryColor,
                     borderRadius: BorderRadius.circular(10)),
@@ -52,6 +53,9 @@ class WalletPage extends StatelessWidget {
                 style: TextStyle(fontSize: 16),
               ),
             ]),
+            const SizedBox(
+              height: 8,
+            ),
             const Text(
               "50 EGP",
               style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
@@ -67,28 +71,31 @@ class WalletPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: DropdownButton(
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 16),
-                    underline: const SizedBox(),
-                    items: const [
-                      DropdownMenuItem(
-                        value: "All",
-                        child: Text("All"),
-                      ),
-                      DropdownMenuItem(
-                        value: "Expenses only",
-                        child: Text("Expenses only"),
-                      ),
-                      DropdownMenuItem(
-                        value: "Income only",
-                        child: Text("Income only"),
-                      )
-                    ],
-                    onChanged: (value) {},
-                    value: "All",
+                  child: SizedBox(
+                    height: 20,
+                    child: DropdownButton(
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 16),
+                      underline: const SizedBox(),
+                      items: const [
+                        DropdownMenuItem(
+                          value: "All",
+                          child: Text("All"),
+                        ),
+                        DropdownMenuItem(
+                          value: "Expenses only",
+                          child: Text("Expenses only"),
+                        ),
+                        DropdownMenuItem(
+                          value: "Income only",
+                          child: Text("Income only"),
+                        )
+                      ],
+                      onChanged: (value) {},
+                      value: "All",
+                    ),
                   ),
                 ),
               ],
@@ -201,7 +208,9 @@ class WalletPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16,),
+            const SizedBox(
+              height: 16,
+            ),
             const Text(
               "Yesterday",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
@@ -307,7 +316,9 @@ class WalletPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16,),
+            const SizedBox(
+              height: 16,
+            ),
             const Text(
               "December 12",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
@@ -413,7 +424,9 @@ class WalletPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16,),
+            const SizedBox(
+              height: 16,
+            ),
             const Text(
               "December 11",
               style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
