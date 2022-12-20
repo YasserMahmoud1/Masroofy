@@ -33,7 +33,10 @@ class CustomizeCategoryPage extends StatelessWidget {
               child: FloatingActionButton.extended(
                 onPressed: () {},
                 backgroundColor: primaryColor,
-                label: const Text("Save"),
+                label: const Text("Save",style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold
+                ),),
               ),
             ),
             appBar: AppBar(

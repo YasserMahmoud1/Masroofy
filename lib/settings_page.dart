@@ -56,7 +56,7 @@ class SettingsPage extends StatelessWidget {
                                 width: 24,
                               ),
                               Text(
-                                "Dark mood",
+                                "Dark mode",
                               ),
                             ],
                           ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masroofy/main_page.dart';
-import 'add_new.dart';
-import 'customize_category_page.dart';
-import 'model.dart';
+
 
 void main() {
   runApp(const MyApp());
