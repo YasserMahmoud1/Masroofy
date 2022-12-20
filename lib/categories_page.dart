@@ -24,7 +24,15 @@ class CategoriesPage extends StatelessWidget {
         itemBuilder: (context, index) => Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              Category category = Category(
+                  title: "Food",
+                  color: "FFAB7C",
+                  iconData: ((Icons.lunch_dining_outlined).codePoint));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      CustomizeCategoryPage(category: category)));
+            },
             child: Container(
               decoration: BoxDecoration(
                 color: secondaryColor,
@@ -65,7 +73,7 @@ class CategoriesPage extends StatelessWidget {
         onPressed: (() {
           Category category = Category(
               title: "Food",
-              color: "4681E2",
+              color: "FFAB7C",
               iconData: ((Icons.lunch_dining_outlined).codePoint));
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => CustomizeCategoryPage(category: category)));

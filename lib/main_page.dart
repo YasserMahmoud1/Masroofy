@@ -3,10 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masroofy/app_cubit.dart';
 import 'package:masroofy/app_states.dart';
 import 'package:masroofy/consts.dart';
-import 'package:masroofy/goals_page.dart';
-import 'package:masroofy/home_page.dart';
-import 'package:masroofy/settings_page.dart';
-import 'package:masroofy/wallet_page.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({super.key});

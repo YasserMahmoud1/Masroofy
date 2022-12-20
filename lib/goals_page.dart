@@ -9,7 +9,43 @@ class GoalsPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (contex) => AlertDialog(
+                content: Column(
+                  mainAxisSize:MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'New goal',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Budget',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ],
+                ),
+                title: Text("Add new Goal"),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                actions: <Widget>[
+                  FloatingActionButton.extended(
+                    label: Text("ADD"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
           child: Icon(Icons.add),
           backgroundColor: primaryColor,
         ),
@@ -53,6 +89,9 @@ class GoalsPage extends StatelessWidget {
                       ],
                     );
                   },
+                ),
+                SizedBox(
+                  height: 60,
                 ),
               ],
             ),

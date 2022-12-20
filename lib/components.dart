@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -23,10 +25,12 @@ class SelectableAvatar extends StatelessWidget {
           CircleAvatar(
             backgroundColor: HexColor(color ?? "FFFFFF"),
             radius: 20,
-            child: iconData != null ?Icon(
-              IconData(iconData!, fontFamily: "MaterialIcons"),
-              color: Colors.black,
-            ):null,
+            child: iconData != null
+                ? Icon(
+                    IconData(iconData!, fontFamily: "MaterialIcons"),
+                    color: Colors.black,
+                  )
+                : null,
           ),
           Container(
             height: 40,
