@@ -34,25 +34,25 @@ class HomePage extends StatelessWidget {
     );
     String text;
     switch (value.toInt()) {
-      case 0:
+      case 1:
         text = 'Mn';
         break;
-      case 1:
+      case 2:
         text = 'Te';
         break;
-      case 2:
+      case 3:
         text = 'Wd';
         break;
-      case 3:
+      case 4:
         text = 'Tu';
         break;
-      case 4:
+      case 5:
         text = 'Fr';
         break;
-      case 5:
+      case 6:
         text = 'St';
         break;
-      case 6:
+      case 7:
         text = 'Sn';
         break;
       default:
@@ -71,6 +71,7 @@ class HomePage extends StatelessWidget {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
       builder: (context, state) {
+        AppCubit cubit = AppCubit.get(context);
         return SafeArea(
             child: Scaffold(
           floatingActionButton: SpeedDial(
@@ -85,7 +86,7 @@ class HomePage extends StatelessWidget {
                   label: "Add New Expense",
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AddNew(
+                        builder: (context) => const AddNew(
                               isIncome: false,
                             )));
                   }),
@@ -94,7 +95,7 @@ class HomePage extends StatelessWidget {
                   label: "Add New Income",
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => AddNew(
+                        builder: (context) => const AddNew(
                               isIncome: true,
                             )));
                   }),
@@ -110,39 +111,23 @@ class HomePage extends StatelessWidget {
                     "Your remaining balance is",
                     style: TextStyle(fontSize: 20),
                   ),
-                  const Text(
-                    "19.25 EGP",
+                  Text(
+                    "${income - spends} EGP",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 16,
                   ),
-                  const Text(
-                    "You have spent this week: 19.25 EGP",
+                  Text(
+                    "You have spent this week: $weekSpends EGP",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 24,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Charts",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "See more",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: primaryColor),
-                        ),
-                      )
-                    ],
+                  const Text(
+                    "Charts",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 24,
@@ -214,7 +199,7 @@ class HomePage extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          AppCubit.get(context).changeNavBarPage(1);
+                          cubit.changeNavBarPage(1);
                         },
                         child: Text(
                           "See more",
@@ -229,53 +214,31 @@ class HomePage extends StatelessWidget {
                   const SizedBox(
                     height: 24,
                   ),
-                  for (int i = 0; i < 3; i++)
-                    Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                const CircleAvatar(
-                                  radius: 20,
-                                  backgroundColor:
-                                      Color.fromARGB(255, 204, 229, 184),
-                                  child: Icon(
-                                    Icons.bolt,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      color: const Color.fromARGB(
-                                          255, 204, 229, 184)),
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 4, horizontal: 8.0),
-                                    child: Text(
-                                      "Bills",
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const Text(
-                              "-80 EGP",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                      ],
-                    ),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: homeTransactions.length,
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(height: 16);
+                    },
+                    itemBuilder: (BuildContext context, int index) {
+                      return transactionTile(
+                        color: homeTransactions[index]["color"], 
+                        title: homeTransactions[index]["title"], 
+                        icon: homeTransactions[index]["icon"], 
+                        amount: homeTransactions[index]["amount"].toString(),
+                        label: homeTransactions[index]["label"] == ""
+                            ? null
+                            : homeTransactions[index]["label"],
+                        isIncome: homeTransactions[index]["is_income"] == 1
+                            ? true
+                            : false,
+                        day: homeTransactions[index]["day"],
+                        month: homeTransactions[index]["month"],
+                        year: homeTransactions[index]["year"],
+                      );
+                    },
+                  ),
                   const SizedBox(
                     height: 8,
                   ),
@@ -289,7 +252,7 @@ class HomePage extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          AppCubit.get(context).changeNavBarPage(2);
+                          cubit.changeNavBarPage(2);
                         },
                         child: Text(
                           "See more",
@@ -304,29 +267,34 @@ class HomePage extends StatelessWidget {
                   const SizedBox(
                     height: 24,
                   ),
-                  for (int i = 0; i < 3; i++)
-                    Column(
-                      children: [
-                        Row(
+                  if(cubit.homeGoals.isEmpty)
+                  const Text("There is no goals yet, please add some"),
+                  if(cubit.homeGoals.isNotEmpty)
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: cubit.homeGoals.length,
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(height: 16);
+                    },
+                    itemBuilder: (BuildContext context, int index) {
+                      return Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
+                          children: [
                             Text(
-                              "PlayStation 5",
+                              cubit.homeGoals[index]["title"],
                               style: TextStyle(fontSize: 20),
                             ),
                             Text(
-                              "1500 EGP",
+                              "${cubit.homeGoals[index]["amount"]} EGP",
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                      ],
-                    ),
+                        );
+                    },
+                  ),
                   const SizedBox(
-                    height: 32,
+                    height: 60,
                   ),
                 ],
               ),

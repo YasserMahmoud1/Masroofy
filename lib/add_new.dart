@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:masroofy/app_cubit.dart';
 import 'package:masroofy/app_states.dart';
 import 'package:masroofy/consts.dart';
@@ -7,14 +9,14 @@ import 'package:masroofy/consts.dart';
 import 'components.dart';
 
 class AddNew extends StatelessWidget {
-  AddNew({super.key, required this.isIncome});
+  const AddNew({super.key, required this.isIncome});
 
   final bool isIncome;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit(InitialState()),
+      create: (context) => AppCubit(InitialState())..createDatabase(),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -26,7 +28,7 @@ class AddNew extends StatelessWidget {
               backgroundColor: Colors.white,
               title: Text(
                 isIncome ? "Add New Income" : "Add New Expense",
-                style: TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.black),
               ),
               centerTitle: true,
               iconTheme: const IconThemeData(color: Colors.black),
@@ -50,75 +52,113 @@ class AddNew extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                          showModalBottomSheet(
-                            shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(24.0))),
-                            context: context,
-                            isScrollControlled: true,
-                            builder: (context) {
-                              return (Container(
-                                height: MediaQuery.of(context).size.height / 2,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: 16,
-                                    ),
-                                    Container(
-                                      height: 8,
-                                      width: 100,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(4),
-                                          color: Colors.black),
-                                    ),
-                                    SizedBox(
-                                      height: 32,
-                                    ),
-                                    Expanded(
-                                      child: GridView.count(
-                                        shrinkWrap: true,
-                                        crossAxisSpacing: 16,
-                                        mainAxisSpacing: 16,
-                                        crossAxisCount: 4,
-                                        children: <Widget>[
-                                          for (int i = 0; i < 50; i++)
-                                            InkWell(
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Column(
+                          if (cubit.categoryID != null) {
+                            showModalBottomSheet(
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(24.0))),
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (context) {
+                                return (SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height / 2,
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 16,
+                                      ),
+                                      Container(
+                                        height: 8,
+                                        width: 100,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                            color: Colors.black),
+                                      ),
+                                      const SizedBox(
+                                        height: 32,
+                                      ),
+                                      Expanded(
+                                        child: StaggeredGrid.count(
+                                          mainAxisSpacing: 16,
+                                          crossAxisSpacing: 16,
+                                          crossAxisCount: 3,
+                                          children: <Widget>[
+                                            for (int i = 0;
+                                                i < clabels.length;
+                                                i++)
+                                              Row(
                                                 children: [
-                                                  CircleAvatar(
-                                                    radius: 25,
-                                                    child: Icon(Icons.abc),
+                                                  const SizedBox(
+                                                    width: 16,
                                                   ),
-                                                  SizedBox(height: 8),
-                                                  Text("title")
+                                                  InkWell(
+                                                    onTap: () {
+                                                      cubit.changeLabelID(
+                                                          i, clabels[i]);
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          color: secondaryColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8)),
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsetsDirectional
+                                                                    .only(
+                                                                start: 8.0),
+                                                        child: SizedBox(
+                                                          height: 30,
+                                                          width: 90,
+                                                          child: Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: [
+                                                              const CircleAvatar(
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .black,
+                                                                radius: 3,
+                                                              ),
+                                                              const SizedBox(
+                                                                  width: 8),
+                                                              Text(clabels[i]),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
-                                            ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ));
-                            },
-                          );
+                                    ],
+                                  ),
+                                ));
+                              },
+                            );
+                          }
                         },
                         child: Container(
                           height: 50,
                           decoration: BoxDecoration(
-                            color: primaryColor,
+                            color: cubit.categoryID != null
+                                ? primaryColor
+                                : Colors.grey,
                             borderRadius: const BorderRadius.only(
                                 bottomRight: Radius.circular(16),
                                 topRight: Radius.circular(16)),
                           ),
-                          child: const Center(
+                          child: Center(
                               child: Text(
-                            "Label",
-                            style: TextStyle(
+                            cubit.labelID == null ? "Label" : cubit.labelTitle,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -133,18 +173,18 @@ class AddNew extends StatelessWidget {
                     Expanded(
                       child: InkWell(
                         onTap: () {
-                                                    showModalBottomSheet(
+                          showModalBottomSheet(
                             shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.vertical(
                                     top: Radius.circular(24.0))),
                             context: context,
                             isScrollControlled: true,
                             builder: (context) {
-                              return (Container(
+                              return (SizedBox(
                                 height: MediaQuery.of(context).size.height / 2,
                                 child: Column(
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 16,
                                     ),
                                     Container(
@@ -155,35 +195,57 @@ class AddNew extends StatelessWidget {
                                               BorderRadius.circular(4),
                                           color: Colors.black),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 32,
                                     ),
-                                    Expanded(
-                                      child: GridView.count(
-                                        shrinkWrap: true,
-                                        crossAxisSpacing: 16,
-                                        mainAxisSpacing: 16,
-                                        crossAxisCount: 4,
-                                        children: <Widget>[
-                                          for (int i = 0; i < 50; i++)
-                                            InkWell(
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  CircleAvatar(
-                                                    radius: 25,
-                                                    child: Icon(Icons.abc),
-                                                  ),
-                                                  SizedBox(height: 8),
-                                                  Text("title")
-                                                ],
-                                              ),
-                                            ),
-                                        ],
+                                    if (categories.isEmpty)
+                                      const Center(
+                                        child: Text(
+                                            "There is not categories inserted"),
                                       ),
-                                    ),
+                                    if (categories.isNotEmpty)
+                                      Expanded(
+                                        child: GridView.count(
+                                          shrinkWrap: true,
+                                          crossAxisSpacing: 16,
+                                          mainAxisSpacing: 16,
+                                          crossAxisCount: 4,
+                                          children: <Widget>[
+                                            for (int i = 0;
+                                                i < categories.length;
+                                                i++)
+                                              InkWell(
+                                                onTap: () {
+                                                  filterLabels(
+                                                      categories[i]["id"]);
+                                                  cubit.changeCategoryID(i,
+                                                      categories[i]["title"]);
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    CircleAvatar(
+                                                      radius: 25,
+                                                      backgroundColor: HexColor(
+                                                          categories[i]
+                                                              ["color"]),
+                                                      child: Icon(
+                                                        IconData(
+                                                            categories[i]
+                                                                ["icon"],
+                                                            fontFamily:
+                                                                "MaterialIcons"),
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 8),
+                                                    Text(categories[i]["title"])
+                                                  ],
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                      ),
                                   ],
                                 ),
                               ));
@@ -198,10 +260,12 @@ class AddNew extends StatelessWidget {
                                 bottomLeft: Radius.circular(16),
                                 topLeft: Radius.circular(16)),
                           ),
-                          child: const Center(
+                          child: Center(
                               child: Text(
-                            "Category",
-                            style: TextStyle(
+                            cubit.categoryID == null
+                                ? "Category"
+                                : cubit.categoryTitle,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -586,19 +650,37 @@ class AddNew extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child: Container(
-                    height: 60,
-                    decoration: BoxDecoration(
+                  child: InkWell(
+                    onTap: () {
+                      if (cubit.categoryID != null &&
+                          cubit.addNewValue.isNotEmpty) {
+                        cubit.insertTransaction(
+                          label: cubit.labelTitle,
+                          categoryID: categories[cubit.categoryID!]["id"],
+                          amount: double.parse(cubit.addNewValue),
+                          isIncome: isIncome,
+                        );
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    child: Container(
+                      height: 60,
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        color: primaryColor),
-                    child: const Center(
-                        child: Text(
-                      "Add",
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    )),
+                        color: cubit.categoryID != null &&
+                                cubit.addNewValue.isNotEmpty
+                            ? primaryColor
+                            : Colors.grey,
+                      ),
+                      child: const Center(
+                          child: Text(
+                        "Add",
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      )),
+                    ),
                   ),
                 ),
                 const SizedBox(

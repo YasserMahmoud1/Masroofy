@@ -4,13 +4,15 @@ import 'package:masroofy/app_cubit.dart';
 import 'package:masroofy/app_states.dart';
 import 'package:masroofy/consts.dart';
 
+import 'components.dart';
+
 class MainPage extends StatelessWidget {
   MainPage({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit(InitialState()),
-      child: BlocConsumer<AppCubit,AppStates>(
+      create: (context) => AppCubit(InitialState())..createDatabase(),
+      child: BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
           builder: (context, state) {
             AppCubit cubit = AppCubit.get(context);
@@ -23,6 +25,7 @@ class MainPage extends StatelessWidget {
                   unselectedItemColor: const Color.fromARGB(255, 218, 218, 218),
                   currentIndex: cubit.currentPageIndex,
                   onTap: (value) {
+                    print(DateTime.now().weekday);
                     cubit.changeNavBarPage(value);
                   },
                   items: [

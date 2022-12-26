@@ -1,540 +1,151 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masroofy/app_cubit.dart';
+import 'package:masroofy/app_states.dart';
+import 'package:masroofy/components.dart';
 import 'package:masroofy/consts.dart';
+import 'package:masroofy/model.dart';
 
 class WalletPage extends StatelessWidget {
-  WalletPage({Key? key}) : super(key: key);
-  List day = [const DropdownMenuItem(child: Text("Today"))];
+  const WalletPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(children: [
-              Container(
-                height: 30,
-                decoration: BoxDecoration(
-                    color: secondaryColor,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: DropdownButton(
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 16),
-                    underline: const SizedBox(),
-                    items: const [
-                      DropdownMenuItem(
-                        value: "Today",
-                        child: Text("Today"),
-                      ),
-                      DropdownMenuItem(
-                        value: "This Week",
-                        child: Text("This Week"),
-                      ),
-                      DropdownMenuItem(
-                        value: "This Month",
-                        child: Text("This Month"),
-                      )
-                    ],
-                    onChanged: (value) {},
-                    value: "Today",
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              const Text(
-                "you spent",
-                style: TextStyle(fontSize: 16),
-              ),
-            ]),
-            const SizedBox(
-              height: 8,
-            ),
-            const Text(
-              "50 EGP",
-              style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return BlocConsumer<AppCubit, AppStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        AppCubit cubit = AppCubit.get(context);
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "so far",
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: SizedBox(
-                    height: 20,
-                    child: DropdownButton(
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 16),
-                      underline: const SizedBox(),
-                      items: const [
-                        DropdownMenuItem(
-                          value: "All",
-                          child: Text("All"),
-                        ),
-                        DropdownMenuItem(
-                          value: "Expenses only",
-                          child: Text("Expenses only"),
-                        ),
-                        DropdownMenuItem(
-                          value: "Income only",
-                          child: Text("Income only"),
-                        )
-                      ],
-                      onChanged: (value) {},
-                      value: "All",
+                Row(children: [
+                  Container(
+                    height: 30,
+                    decoration: BoxDecoration(
+                        color: secondaryColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: DropdownButton(
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 16),
+                        underline: const SizedBox(),
+                        items: const [
+                          DropdownMenuItem(
+                            value: "Today",
+                            child: Text("Today"),
+                          ),
+                          DropdownMenuItem(
+                            value: "This Week",
+                            child: Text("This Week"),
+                          ),
+                          DropdownMenuItem(
+                            value: "This Month",
+                            child: Text("This Month"),
+                          )
+                        ],
+                        onChanged: (value) {
+                          cubit.changeTodayOption(value!);
+                        },
+                        value: cubit.todayOptions,
+                      ),
                     ),
                   ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  const Text(
+                    "you spent",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ]),
+                const SizedBox(
+                  height: 8,
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            const Text(
-              "Today",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+                Text(
+                  "${cubit.optionSpends} EGP",
+                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Color.fromARGB(255, 204, 229, 184),
-                      child: Icon(
-                        Icons.bolt,
-                        color: Colors.black,
+                    const Text(
+                      "so far",
+                      style: TextStyle(
+                        fontSize: 16,
                       ),
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: const Color.fromARGB(255, 204, 229, 184)),
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 4, horizontal: 8.0),
-                        child: Text(
-                          "Bills",
-                          style: TextStyle(fontSize: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: SizedBox(
+                        height: 20,
+                        child: DropdownButton(
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16),
+                          underline: const SizedBox(),
+                          items: const [
+                            DropdownMenuItem(
+                              value: "All",
+                              child: Text("All"),
+                            ),
+                            DropdownMenuItem(
+                              value: "Expenses only",
+                              child: Text("Expenses only"),
+                            ),
+                            DropdownMenuItem(
+                              value: "Income only",
+                              child: Text("Income only"),
+                            )
+                          ],
+                          onChanged: (value) {
+                            cubit.changeIncomeOption(value!);
+                          },
+                          value: cubit.incomOptions,
                         ),
                       ),
                     ),
                   ],
                 ),
-                const Text(
-                  "-80 EGP",
-                  style: TextStyle(fontSize: 16),
-                ),
+                SizedBox(height: 24),
+                if (transactions.isEmpty)
+                  Text("There is no transactions, insert some"),
+                if (transactions.isNotEmpty)
+                  ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: transactions.length,
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(height: 16);
+                    },
+                    itemBuilder: (BuildContext context, int index) {
+                      return transactionTile(
+                        color: transactions[index]["color"],
+                        title: transactions[index]["title"],
+                        icon: (Icons.lunch_dining_outlined).codePoint,
+                        amount: transactions[index]["amount"].toString(),
+                        label: transactions[index]["label"] == ""
+                            ? null
+                            : transactions[index]["label"],
+                        isIncome: transactions[index]["is_income"] == 1
+                            ? true
+                            : false,
+                        day: transactions[index]["day"],
+                        month: transactions[index]["month"],
+                        year: transactions[index]["year"],
+                      );
+                    },
+                  ),
               ],
             ),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Color.fromARGB(255, 195, 224, 237),
-                      child: Icon(
-                        Icons.sports_esports_outlined,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: const Color.fromARGB(255, 195, 224, 237)),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 8.0),
-                            child: Text(
-                              "Entertainment",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: const Color.fromARGB(255, 195, 224, 237)),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 8.0),
-                            child: Text(
-                              "PlayStation",
-                              style: TextStyle(fontSize: 10),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const Text(
-                  "-20 EGP",
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            const Text(
-              "Yesterday",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Color.fromARGB(255, 204, 229, 184),
-                      child: Icon(
-                        Icons.bolt,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: const Color.fromARGB(255, 204, 229, 184)),
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 4, horizontal: 8.0),
-                        child: Text(
-                          "Bills",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const Text(
-                  "-80 EGP",
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Color.fromARGB(255, 195, 224, 237),
-                      child: Icon(
-                        Icons.sports_esports_outlined,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: const Color.fromARGB(255, 195, 224, 237)),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 8.0),
-                            child: Text(
-                              "Entertainment",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: const Color.fromARGB(255, 195, 224, 237)),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 8.0),
-                            child: Text(
-                              "PlayStation",
-                              style: TextStyle(fontSize: 10),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const Text(
-                  "-20 EGP",
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            const Text(
-              "December 12",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Color.fromARGB(255, 204, 229, 184),
-                      child: Icon(
-                        Icons.bolt,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: const Color.fromARGB(255, 204, 229, 184)),
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 4, horizontal: 8.0),
-                        child: Text(
-                          "Bills",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const Text(
-                  "-80 EGP",
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Color.fromARGB(255, 195, 224, 237),
-                      child: Icon(
-                        Icons.sports_esports_outlined,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: const Color.fromARGB(255, 195, 224, 237)),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 8.0),
-                            child: Text(
-                              "Entertainment",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: const Color.fromARGB(255, 195, 224, 237)),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 8.0),
-                            child: Text(
-                              "PlayStation",
-                              style: TextStyle(fontSize: 10),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const Text(
-                  "-20 EGP",
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            const Text(
-              "December 11",
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Color.fromARGB(255, 204, 229, 184),
-                      child: Icon(
-                        Icons.bolt,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: const Color.fromARGB(255, 204, 229, 184)),
-                      child: const Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 4, horizontal: 8.0),
-                        child: Text(
-                          "Bills",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const Text(
-                  "-80 EGP",
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Color.fromARGB(255, 195, 224, 237),
-                      child: Icon(
-                        Icons.sports_esports_outlined,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: const Color.fromARGB(255, 195, 224, 237)),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 8.0),
-                            child: Text(
-                              "Entertainment",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: const Color.fromARGB(255, 195, 224, 237)),
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 8.0),
-                            child: Text(
-                              "PlayStation",
-                              style: TextStyle(fontSize: 10),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const Text(
-                  "-20 EGP",
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

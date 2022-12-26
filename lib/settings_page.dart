@@ -12,104 +12,65 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
-      builder: (context, state) => SizedBox(
-        width: double.infinity,
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height / 3,
-              color: primaryColor,
-              child: const Center(
-                child: Text(
-                  "Settings",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 48,
-                    fontWeight: FontWeight.bold,
+      builder: (context, state) {
+        AppCubit cubit = AppCubit.get(context);
+        return SizedBox(
+          width: double.infinity,
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height / 3,
+                color: primaryColor,
+                child: const Center(
+                  child: Text(
+                    "Settings",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 48,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: secondaryColor,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Column(
-                  children: [
-                    Padding(
+              const SizedBox(
+                height: 48,
+              ),
+
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const CategoriesPage()));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: secondaryColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 8),
+                          horizontal: 24, vertical: 16),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: const [
-                              Icon(Icons.dark_mode_outlined),
-                              SizedBox(
-                                width: 24,
-                              ),
-                              Text(
-                                "Dark mode",
-                              ),
-                            ],
+                        children: const [
+                          Icon(Icons.category_outlined),
+                          SizedBox(
+                            width: 24,
                           ),
-                          Switch(
-                            activeColor: primaryColor,
-                            value: AppCubit.get(context).isDark,
-                            onChanged: (value) {
-                              AppCubit.get(context).changeDarkMode(value);
-                            },
+                          Text(
+                            "Categories",
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            InkWell(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const CategoriesPage()));
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: secondaryColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24, vertical: 16),
-                    child: Row(
-                      children: const [
-                        Icon(Icons.category_outlined),
-                        SizedBox(
-                          width: 24,
-                        ),
-                        Text(
-                          "Categories",
-                        ),
-                      ],
-                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

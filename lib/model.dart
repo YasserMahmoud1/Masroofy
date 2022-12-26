@@ -16,3 +16,7 @@ class Category {
   String getColor() => color;
 
 }
+
+class transaction{
+  
+} 
