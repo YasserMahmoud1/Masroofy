@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -44,3 +46,16 @@ var weekSpends = 0;
 var monthSpends = 0;
 var daySpends = 0;
 
+  List<DateTime> days = [
+    DateTime.now().add(const Duration(days: -9)),
+    DateTime.now().add(const Duration(days: -8)),
+    DateTime.now().add(const Duration(days: -7)),
+    DateTime.now().add(const Duration(days: -6)),
+    DateTime.now().add(const Duration(days: -5)),
+    DateTime.now().add(const Duration(days: -4)),
+    DateTime.now().add(const Duration(days: -3)),
+    DateTime.now().add(const Duration(days: -2)),
+    DateTime.now().add(const Duration(days: -1)),
+    DateTime.now(),
+  ];
+  List daysSpent = [0,0,0,0,0,0,0,0,0,0];

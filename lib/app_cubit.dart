@@ -12,7 +12,9 @@ import 'wallet_page.dart';
 class AppCubit extends Cubit<AppStates> {
   AppCubit(super.initialState);
   static AppCubit get(context) => BlocProvider.of(context);
+  
   int currentPageIndex = 0;
+
   String addNewValue = "";
   int? labelID;
   String labelTitle = "";
@@ -63,36 +65,8 @@ class AppCubit extends Cubit<AppStates> {
   DateTime lastWeek = DateTime.now().add(const Duration(days: -7));
   DateTime lastMonth = DateTime.now().add(const Duration(days: -30));
   var optionSpends = daySpends;
-  void changeTodayOption(String value) {
-    todayOptions = value;
-    if (value == "This Week") {
-      showLastWeekSpends(database);
-      optionSpends = weekSpends;
-      emit(TodayOptionChanged());
-    } else if (value == "This Month") {
-      showLastMonthSpends(database);
-      optionSpends = monthSpends;
-      emit(TodayOptionChanged());
-    } else {
-      showLastDaySpends(database);
-      optionSpends = daySpends;
-      emit(TodayOptionChanged());
-    }
 
-    emit(TodayOptionChanged());
-  }
 
-  void changeIncomeOption(String value) {
-    incomOptions = value;
-    if (value == "Expenses only") {
-      showExpenseTransactions(database);
-    } else if (value == "Income only") {
-      showIncomeTransactions(database);
-    } else {
-      showTransactions(database);
-    }
-    emit(IncomeOptionChanged());
-  }
 
   void changeNavBarPage(int value) {
     currentPageIndex = value;
@@ -156,13 +130,14 @@ class AppCubit extends Cubit<AppStates> {
             'CREATE TABLE transactions (id INTEGER PRIMARY KEY, label TEXT, category_id INTEGER, day INTEGER, month INTEGER, year INTEGER, amount NUMERIC, is_income BOOLEAN)');
       },
       onOpen: (database) {
+        showDaysSpends(database);
         showGoals(database);
         showCategories(database);
         showLabels(database);
         showTransactions(database);
         showHomeTransactions(database);
         showIncome(database);
-                showLastDaySpends(database);
+        showLastDaySpends(database);
         showSpent(database);
         showHomeGoals(database);
         showLastWeekSpends(database);
@@ -173,7 +148,36 @@ class AppCubit extends Cubit<AppStates> {
       emit(DatabaseOpened());
     });
   }
+  
+  void changeIncomeOption(String value) {
+    incomOptions = value;
+    if (value == "Expenses only") {
+      showExpenseTransactions(database);
+    } else if (value == "Income only") {
+      showIncomeTransactions(database);
+    } else {
+      showTransactions(database);
+    }
+    emit(IncomeOptionChanged());
+  }
+  void changeTodayOption(String value) {
+    todayOptions = value;
+    if (value == "This Week") {
+      showLastWeekSpends(database);
+      optionSpends = weekSpends;
+      emit(TodayOptionChanged());
+    } else if (value == "This Month") {
+      showLastMonthSpends(database);
+      optionSpends = monthSpends;
+      emit(TodayOptionChanged());
+    } else {
+      showLastDaySpends(database);
+      optionSpends = daySpends;
+      emit(TodayOptionChanged());
+    }
 
+    emit(TodayOptionChanged());
+  }
   void insertGoal({
     required String title,
     required double amount,
@@ -231,6 +235,8 @@ class AppCubit extends Cubit<AppStates> {
       showTransactions(database);
       showHomeTransactions(database);
       showLastWeekSpends(database);
+      showLastDaySpends(database);
+      showDaysSpends(database);
       showLastDaySpends(database);
       emit(TransactionInserted());
       print('$value added to database');
@@ -351,11 +357,25 @@ class AppCubit extends Cubit<AppStates> {
   void showLastDaySpends(database) {
     database
         .rawQuery(
-            'SELECT SUM(amount) as spends FROM transactions  WHERE day >= ${DateTime.now().day} and month >= ${DateTime.now().month} and year >= ${DateTime.now().year} and is_income = 0')
+            'SELECT SUM(amount) as spends FROM transactions  WHERE day = ${DateTime.now().day} and month = ${DateTime.now().month} and year = ${DateTime.now().year} and is_income = 0')
         .then((value) {
       daySpends = value[0]["spends"];
       emit(TransactionShowed());
     });
+  }
+
+  void showDaysSpends(database) {
+    for (int i = 0; i < days.length;i++) {
+      database
+          .rawQuery(
+              'SELECT SUM(amount) as spends FROM transactions  WHERE day = ${days[i].day} and month = ${days[i].month} and year = ${days[i].year} and is_income = 0')
+          .then((value) {
+        daysSpent[i] = (value[0]["spends"]);
+        emit(TransactionShowed());
+      });
+      emit(TransactionShowed());
+    }
+    emit(TransactionShowed());
   }
 
   void updateGoal({required int id, required int isDone}) {

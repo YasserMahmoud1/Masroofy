@@ -168,18 +168,13 @@ class HomePage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            maxY: 50,
+                            maxY: 200,
                             barGroups: [
-                              generateGroupData(1, 11),
-                              generateGroupData(2, 11),
-                              generateGroupData(3, 11),
-                              generateGroupData(4, 11),
-                              generateGroupData(5, 11),
-                              generateGroupData(6, 11),
-                              generateGroupData(1, 11),
-                              generateGroupData(2, 11),
-                              generateGroupData(3, 11),
-                              generateGroupData(4, 11),
+                              for(int i = 0; i< days.length;i++)
+                              generateGroupData(
+                                days[i].weekday,
+                                daysSpent[i] ?? 0
+                              ),
                             ],
                           ),
                         ),

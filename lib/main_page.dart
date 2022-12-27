@@ -16,7 +16,7 @@ class MainPage extends StatelessWidget {
           listener: (context, state) {},
           builder: (context, state) {
             AppCubit cubit = AppCubit.get(context);
-
+          
             return SafeArea(
               child: Scaffold(
                 body: cubit.screens[cubit.currentPageIndex],
@@ -25,7 +25,7 @@ class MainPage extends StatelessWidget {
                   unselectedItemColor: const Color.fromARGB(255, 218, 218, 218),
                   currentIndex: cubit.currentPageIndex,
                   onTap: (value) {
-                    print(DateTime.now().weekday);
+                    print(days[1]);
                     cubit.changeNavBarPage(value);
                   },
                   items: [
