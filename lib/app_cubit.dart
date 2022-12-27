@@ -12,7 +12,7 @@ import 'wallet_page.dart';
 class AppCubit extends Cubit<AppStates> {
   AppCubit(super.initialState);
   static AppCubit get(context) => BlocProvider.of(context);
-  
+
   int currentPageIndex = 0;
 
   String addNewValue = "";
@@ -65,8 +65,6 @@ class AppCubit extends Cubit<AppStates> {
   DateTime lastWeek = DateTime.now().add(const Duration(days: -7));
   DateTime lastMonth = DateTime.now().add(const Duration(days: -30));
   var optionSpends = daySpends;
-
-
 
   void changeNavBarPage(int value) {
     currentPageIndex = value;
@@ -148,7 +146,7 @@ class AppCubit extends Cubit<AppStates> {
       emit(DatabaseOpened());
     });
   }
-  
+
   void changeIncomeOption(String value) {
     incomOptions = value;
     if (value == "Expenses only") {
@@ -160,6 +158,7 @@ class AppCubit extends Cubit<AppStates> {
     }
     emit(IncomeOptionChanged());
   }
+
   void changeTodayOption(String value) {
     todayOptions = value;
     if (value == "This Week") {
@@ -178,6 +177,7 @@ class AppCubit extends Cubit<AppStates> {
 
     emit(TodayOptionChanged());
   }
+
   void insertGoal({
     required String title,
     required double amount,
@@ -232,8 +232,9 @@ class AppCubit extends Cubit<AppStates> {
         .transaction((txn) => txn.rawInsert(
             'INSERT INTO transactions (label, category_id, day, month, year, amount, is_income) VALUES ("$label", $categoryID, ${DateTime.now().day},${DateTime.now().month},${DateTime.now().year}, $amount, $isIncome )'))
         .then((value) {
-      showTransactions(database);
+      emit(TransactionInserted());
       showHomeTransactions(database);
+      showTransactions(database);
       showLastWeekSpends(database);
       showLastDaySpends(database);
       showDaysSpends(database);
@@ -319,7 +320,7 @@ class AppCubit extends Cubit<AppStates> {
         .rawQuery(
             'SELECT SUM(amount) as spends FROM transactions WHERE is_income = 0')
         .then((value) {
-      spends = value[0]["spends"];
+      spends = value[0]["spends"]??0;
       emit(TransactionShowed());
     });
   }
@@ -329,7 +330,7 @@ class AppCubit extends Cubit<AppStates> {
         .rawQuery(
             'SELECT SUM(amount) as income FROM transactions WHERE is_income = 1')
         .then((value) {
-      income = value[0]["income"];
+      income = value[0]["income"]??0;
       emit(TransactionShowed());
     });
   }
@@ -349,7 +350,7 @@ class AppCubit extends Cubit<AppStates> {
         .rawQuery(
             'SELECT SUM(amount) as spends FROM transactions  WHERE day >= ${lastWeek.day} and month >= ${lastWeek.month} and year >= ${lastWeek.year} and is_income = 0')
         .then((value) {
-      weekSpends = value[0]["spends"];
+      weekSpends = value[0]["spends"]??0;
       emit(TransactionShowed());
     });
   }
@@ -359,13 +360,13 @@ class AppCubit extends Cubit<AppStates> {
         .rawQuery(
             'SELECT SUM(amount) as spends FROM transactions  WHERE day = ${DateTime.now().day} and month = ${DateTime.now().month} and year = ${DateTime.now().year} and is_income = 0')
         .then((value) {
-      daySpends = value[0]["spends"];
+      daySpends = value[0]["spends"]??0;
       emit(TransactionShowed());
     });
   }
 
   void showDaysSpends(database) {
-    for (int i = 0; i < days.length;i++) {
+    for (int i = 0; i < days.length; i++) {
       database
           .rawQuery(
               'SELECT SUM(amount) as spends FROM transactions  WHERE day = ${days[i].day} and month = ${days[i].month} and year = ${days[i].year} and is_income = 0')
@@ -383,6 +384,15 @@ class AppCubit extends Cubit<AppStates> {
         [isDone, id]).then((value) {
       showGoals(database);
       emit(GoalsUpdated());
+    });
+  }
+
+  void deleteTransaction({required int id}) {
+    database
+        .rawDelete('DELETE FROM transactions WHERE id = ?', [id]).then((value) {
+      showTransactions(database);
+      showHomeTransactions(database);
+      emit(TransactionsDeleted());
     });
   }
 

@@ -124,20 +124,27 @@ class WalletPage extends StatelessWidget {
                       return SizedBox(height: 16);
                     },
                     itemBuilder: (BuildContext context, int index) {
-                      return transactionTile(
-                        color: transactions[index]["color"],
-                        title: transactions[index]["title"],
-                        icon: (Icons.lunch_dining_outlined).codePoint,
-                        amount: transactions[index]["amount"].toString(),
-                        label: transactions[index]["label"] == ""
-                            ? null
-                            : transactions[index]["label"],
-                        isIncome: transactions[index]["is_income"] == 1
-                            ? true
-                            : false,
-                        day: transactions[index]["day"],
-                        month: transactions[index]["month"],
-                        year: transactions[index]["year"],
+                      return Dismissible(
+                        key: Key(transactions[index]["id"].toString()),
+                        onDismissed: (dir) {
+                          cubit.deleteTransaction(
+                              id: transactions[index]["id"]);
+                        },
+                        child: transactionTile(
+                          color: transactions[index]["color"],
+                          title: transactions[index]["title"],
+                          icon: (Icons.lunch_dining_outlined).codePoint,
+                          amount: transactions[index]["amount"].toString(),
+                          label: transactions[index]["label"] == ""
+                              ? null
+                              : transactions[index]["label"],
+                          isIncome: transactions[index]["is_income"] == 1
+                              ? true
+                              : false,
+                          day: transactions[index]["day"],
+                          month: transactions[index]["month"],
+                          year: transactions[index]["year"],
+                        ),
                       );
                     },
                   ),

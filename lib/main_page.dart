@@ -25,7 +25,6 @@ class MainPage extends StatelessWidget {
                   unselectedItemColor: const Color.fromARGB(255, 218, 218, 218),
                   currentIndex: cubit.currentPageIndex,
                   onTap: (value) {
-                    print(days[1]);
                     cubit.changeNavBarPage(value);
                   },
                   items: [

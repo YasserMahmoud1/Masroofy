@@ -13,6 +13,7 @@ class GoalsShowed extends AppStates{}
 class CategoriesShowed extends AppStates{}
 class CategoriesInserted extends AppStates{}
 class CategoriesUpdated extends AppStates{}
+class TransactionsDeleted extends AppStates{}
 class LabelInserted extends AppStates{}
 class LabelShowed extends AppStates{}
 class TransactionShowed extends AppStates{}
