@@ -1,24 +1,24 @@
-abstract class AppStates {}
+// abstract class AppStates {}
 
-class InitialState extends AppStates{}
-class ChangeNavBarPage extends AppStates{}
-class UpdateAddNewValue extends AppStates{}
-class DeleteAddNewValue extends AppStates{}
-class ClearAddNewValue extends AppStates{}
-class ChangeColor extends AppStates{}
-class ChangeIcon extends AppStates{}
-class GoalsUpdated extends AppStates{}
-class GoalsInserted extends AppStates{}
-class GoalsShowed extends AppStates{}
-class CategoriesShowed extends AppStates{}
-class CategoriesInserted extends AppStates{}
-class CategoriesUpdated extends AppStates{}
-class TransactionsDeleted extends AppStates{}
-class LabelInserted extends AppStates{}
-class LabelShowed extends AppStates{}
-class TransactionShowed extends AppStates{}
-class TransactionInserted extends AppStates{}
-class ChangeID extends AppStates{}
-class DatabaseOpened extends AppStates{}
-class TodayOptionChanged extends AppStates{}
-class IncomeOptionChanged extends AppStates{}
+// class InitialState extends AppStates{}
+// class ChangeNavBarPage extends AppStates{}
+// class UpdateAddNewValue extends AppStates{}
+// class DeleteAddNewValue extends AppStates{}
+// class ClearAddNewValue extends AppStates{}
+// class ChangeColor extends AppStates{}
+// class ChangeIcon extends AppStates{}
+// class GoalsUpdated extends AppStates{}
+// class GoalsInserted extends AppStates{}
+// class GoalsShowed extends AppStates{}
+// class CategoriesShowed extends AppStates{}
+// class CategoriesInserted extends AppStates{}
+// class CategoriesUpdated extends AppStates{}
+// class TransactionsDeleted extends AppStates{}
+// class LabelInserted extends AppStates{}
+// class LabelShowed extends AppStates{}
+// class TransactionShowed extends AppStates{}
+// class TransactionInserted extends AppStates{}
+// class ChangeID extends AppStates{}
+// class DatabaseOpened extends AppStates{}
+// class TodayOptionChanged extends AppStates{}
+// class IncomeOptionChanged extends AppStates{}
