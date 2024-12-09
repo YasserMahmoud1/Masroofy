@@ -1,6 +1,5 @@
 part of 'home_chart_cubit.dart';
 
-@immutable
 class HomeChartState {}
 
 class HomeChartInitial extends HomeChartState {}

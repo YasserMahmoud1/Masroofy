@@ -13,7 +13,7 @@ class CategoriesModel {
       title: json["title"],
       icon: json["icon"],
       color: json["color"],
-      isIncome: json["is_income"] == 1 ? true : false,
+      isIncome: json["is_income_category"] == 1,
     );
   }
 

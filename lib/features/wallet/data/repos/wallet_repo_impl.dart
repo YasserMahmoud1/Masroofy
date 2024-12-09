@@ -37,7 +37,6 @@ class WalletRepoImpl implements WalletRepo {
     final response2 = await database.rawQuery(query2);
 
 
-
     return [
       response1
           .map<TransactionModel>((e) => TransactionModel.fromJSON(e))

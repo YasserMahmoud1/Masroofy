@@ -1,6 +1,5 @@
 part of 'wallet_cubit.dart';
 
-@immutable
 class WalletState {}
 
 class WalletInitial extends WalletState {}

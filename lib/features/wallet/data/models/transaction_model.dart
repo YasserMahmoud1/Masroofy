@@ -21,7 +21,7 @@ class TransactionModel {
       date: DateTime.parse(json['date']),
       amount: json['amount'],
       category:CategoriesModel(color:json['color'],icon:json['icon'],title: json['categorie_title'],),
-      isIncome: json['is_income'] == 1,
+      isIncome: json['is_income_transaction'] == 1,
     );
   }
 }

@@ -1,6 +1,5 @@
 part of 'goal_cubit.dart';
 
-@immutable
 class GoalState {}
 
 class GoalInitial extends GoalState {}

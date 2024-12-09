@@ -88,9 +88,9 @@ class HomeTransactions extends StatelessWidget {
             ],
           ),
           transactions.isEmpty
-              ? Padding(
-                padding: const EdgeInsets.only(top:16),
-                child: const Text("No transactions yet"),
+              ? const Padding(
+                padding: EdgeInsets.only(top:16),
+                child: Text("No transactions yet"),
               )
               : ListView.separated(
                   shrinkWrap: true,
@@ -167,9 +167,9 @@ class HomePageGoals extends StatelessWidget {
             ],
           ),
           goals.isEmpty
-              ? Padding(
-                padding: const EdgeInsets.only(top:16),
-                child: const Text("No unfinished goals yet"),
+              ? const Padding(
+                padding: EdgeInsets.only(top:16),
+                child: Text("No unfinished goals yet"),
               )
               : ListView.separated(
                   shrinkWrap: true,

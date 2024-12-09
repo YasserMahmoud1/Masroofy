@@ -1,6 +1,5 @@
 part of 'home_goals_cubit.dart';
 
-@immutable
 class HomeGoalsState {}
 
 class HomeGoalsInitial extends HomeGoalsState {}

@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masroofy/features/categories/data/models/categories_model.dart';
 import 'package:masroofy/features/categories/data/repos/categories_repo.dart';
-import 'package:meta/meta.dart';
 
 part 'categories_state.dart';
 

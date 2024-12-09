@@ -1,6 +1,5 @@
 part of 'home_last_week_expenses_cubit.dart';
 
-@immutable
 class HomeLastWeekExpensesState {}
 
 class HomeLastWeekExpensesInitial extends HomeLastWeekExpensesState {}

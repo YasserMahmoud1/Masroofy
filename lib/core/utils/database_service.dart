@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseService {
@@ -16,13 +17,13 @@ class DatabaseService {
           'CREATE TABLE goals (id INTEGER PRIMARY KEY, title TEXT, is_done BOOLEAN, amount REAL)',
         );
         await database.execute(
-            'CREATE TABLE categories (id INTEGER PRIMARY KEY,title TEXT, color TEXT, icon INTEGER, is_income_category BOOLEAN)');
+            'CREATE TABLE categories (id INTEGER PRIMARY KEY,title TEXT, color TEXT, icon INTEGER, is_income_cis_income_categoryategory BOOLEAN)');
         await database.execute(
             'CREATE TABLE transactions (id INTEGER PRIMARY KEY, category_id INTEGER, date TEXT, amount NUMERIC, is_income_transaction BOOLEAN)');
-        print('database created');
+        debugPrint('database created');
       },
       onOpen: (database) {
-        print('database opened');
+        debugPrint('database opened');
       },
     );
   }

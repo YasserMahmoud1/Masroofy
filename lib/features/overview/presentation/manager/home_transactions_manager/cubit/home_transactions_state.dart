@@ -1,6 +1,5 @@
 part of 'home_transactions_cubit.dart';
 
-@immutable
 class HomeTransactionsState {}
 
 class HomeTransactionsInitial extends HomeTransactionsState {}

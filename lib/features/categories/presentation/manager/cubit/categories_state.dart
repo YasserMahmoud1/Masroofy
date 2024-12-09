@@ -1,6 +1,5 @@
 part of 'categories_cubit.dart';
 
-@immutable
 class CategoriesState {}
 class CategoriesInitial extends CategoriesState {}
 class CategoriesLoading extends CategoriesState {}

@@ -14,7 +14,7 @@ class AddTransactionRepoImpl implements AddTransactionRepo {
     final db = await databaseService.db;
     final response = await db.rawQuery("""
       SELECT * FROM categories
-      WHERE is_income_transaction = ${isIncome ? 1 : 0}
+      WHERE is_income_category = ${isIncome ? 1 : 0}
     """);
     return response.map<CategoriesModel>((e) => CategoriesModel.fromJSON(e)).toList();
 
@@ -23,6 +23,7 @@ class AddTransactionRepoImpl implements AddTransactionRepo {
   @override
   Future<void> insertTransaction(TransactionModel transaction)async {
     final db = await databaseService.db;
+    print(transaction.isIncome);
     await db.rawInsert("""
       INSERT INTO transactions (date,amount,category_id,is_income_transaction)
       VALUES (?,?,?,?)

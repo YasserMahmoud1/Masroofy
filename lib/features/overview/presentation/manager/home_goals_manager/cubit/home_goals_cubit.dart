@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 // import '../../../../../../core/utils/service_locator.dart';
 import '../../../../../goals/data/model/goals_models.dart';
