@@ -23,7 +23,6 @@ class AddTransactionRepoImpl implements AddTransactionRepo {
   @override
   Future<void> insertTransaction(TransactionModel transaction)async {
     final db = await databaseService.db;
-    print(transaction.isIncome);
     await db.rawInsert("""
       INSERT INTO transactions (date,amount,category_id,is_income_transaction)
       VALUES (?,?,?,?)

@@ -27,7 +27,6 @@ class WalletCubit extends Cubit<WalletState> {
   void getTransactions() async {
     emit(WalletLoading());
     final response = await walletRepo.getTransactionsAndSpent(type, time);
-    print(response[0][0].isIncome);
     emit(WalletSuccess(response[0], response[1]));
   }
 }
